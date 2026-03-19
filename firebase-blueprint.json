@@ -1,0 +1,40 @@
+{
+  "entities": {
+    "companies": {
+      "title": "Company",
+      "description": "A business or service listed in the commercial guide.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the business" },
+        "category": { "type": "string", "description": "Business category" },
+        "instagram": { "type": "string", "description": "Instagram profile URL" },
+        "whatsapp": { "type": "string", "description": "WhatsApp contact number" },
+        "location": { "type": "string", "description": "Google Maps location URL" },
+        "site": { "type": "string", "description": "Official website URL" },
+        "image": { "type": "string", "description": "Base64 encoded image or URL" },
+        "rating": { "type": "number", "description": "Star rating from 1 to 5" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp of creation" }
+      },
+      "required": ["name", "category", "rating"]
+    },
+    "users": {
+      "title": "User",
+      "description": "App user profile.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "user"] }
+      }
+    }
+  },
+  "firestore": {
+    "/companies/{companyId}": {
+      "schema": "companies",
+      "description": "Collection of commercial guide listings"
+    },
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "User roles and profiles"
+    }
+  }
+}

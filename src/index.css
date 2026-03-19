@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-insta-purple: #C13584;
+  --color-insta-pink: #E1306C;
+  --color-insta-orange: #F56040;
+  --color-insta-yellow: #FCAF45;
+  --color-insta-blue: #405DE6;
+  
+  --background-insta-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+@layer base {
+  body {
+    @apply bg-[#0b0b0b] text-white antialiased;
+  }
+}
+
+.insta-gradient {
+  background: var(--background-insta-gradient);
+}
+
+.insta-text-gradient {
+  background: var(--background-insta-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

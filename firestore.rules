@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    // Collection: companies
+    // Fields: name, category, instagram, whatsapp, location, site, image, rating, createdAt
+    //
+    // Collection: users
+    // Fields: email, role
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+         (request.auth.token.email == "georgeoughotmart@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isValidCompany(data) {
+      return data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.category is string && data.category.size() > 0 &&
+             data.rating is number && data.rating >= 1 && data.rating <= 5;
+    }
+
+    // Rules
+    match /companies/{companyId} {
+      allow read: if true; // Publicly readable
+      allow create, update, delete: if isAdmin() && isValidCompany(request.resource.data);
+    }
+
+    match /users/{userId} {
+      allow read: if isAuthenticated() && request.auth.uid == userId;
+      allow write: if false; // Only manageable via console or admin functions
+    }
+  }
+}
